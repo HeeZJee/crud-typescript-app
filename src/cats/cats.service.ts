@@ -1,13 +1,14 @@
 import * as fs from "fs";
-import { ICat } from "./cats.types";
+import { ICat } from "./cats";
 const fetch = require("node-fetch").default;
+import httpRequest from "../../utils/httpRequest"; 
 
-export class Cats {
+export class CatsService {
   filePath: string;
   static gIndex: number = 0;
   static getFreshIndex(): number {
-    Cats.gIndex += 1;
-    return Cats.gIndex;
+    CatsService.gIndex += 1;
+    return CatsService.gIndex;
   }
   constructor(filePath: string) {
     this.filePath = filePath;
@@ -19,7 +20,7 @@ export class Cats {
   }
 
   public async addCat(cat: ICat) {
-    cat.id = Cats.getFreshIndex();
+    cat.id = CatsService.getFreshIndex();
     cat.imageLink = await this._reolveCatImageLink(
       "https://aws.random.cat/meow"
     );
