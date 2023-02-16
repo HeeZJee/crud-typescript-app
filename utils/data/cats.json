@@ -28,5 +28,15 @@
             "Loki",
             "Joker"
         ]
+    },
+    {
+        "imageLink": "https://purr.objects-us-east-1.dream.io/i/img_20161127_133647.jpg",
+        "altText": "A white cat wearing a green, helmet shaped melon on its head. ",
+        "codeNames": [
+            "Juggernaut",
+            "Mrs. Wallace",
+            "Buttercup"
+        ],
+        "id": 1
     }
 ]
