@@ -1,21 +1,26 @@
 import { createServer, IncomingMessage, ServerResponse, request } from "http";
 import { CatsRoute as Cats } from "./src/cats";
+import { getRequestBody } from "./utils/getRequestBody";
+import { ICat } from "./src/cats/cats";
 
 const host: string = "localhost";
 const port: number = 3000;
-const filePath: string = __dirname + "/utils/cats.json";
+const filePath: string = __dirname + "/utils/data/cats.json";
 
-const requestListener = function (req: IncomingMessage, res: ServerResponse) {
-  console.log("url", req.url);
+const requestListener = async function (
+  req: IncomingMessage,
+  res: ServerResponse
+) {
+  console.log(req.method, req.url);
 
-  const data = Cats(req.url, filePath);
+  const body: ICat = (await getRequestBody(req)) as ICat;
+  const data = Cats(req, body, filePath);
 
-    data.then((result) => {
-      console.log("result", result);
-      res.writeHead(200, { "Content-Type": "text/html" });
-      res.write(JSON.stringify(result));
-      res.end();
-    });
+  data.then((result) => {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.write(JSON.stringify(result));
+    res.end();
+  });
 };
 
 const server = createServer(requestListener);

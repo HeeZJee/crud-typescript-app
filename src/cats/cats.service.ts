@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import { ICat } from "./cats";
 const fetch = require("node-fetch").default;
-import httpRequest from "../../utils/httpRequest"; 
+// import httpRequest from "../../utils/httpRequest"; 
 
 export class CatsService {
   filePath: string;
@@ -28,13 +28,15 @@ export class CatsService {
     let cats = await this.getCats();
     cats.push(cat);
     fs.writeFileSync(this.filePath, JSON.stringify(cats));
-    return cat;
+    return { message: `cat with id ${cat.id} has been added` };
   }
 
   public async deleteCat(id: number) {
     let cats = await this.getCats();
     cats = cats.filter((cat: any) => cat.id !== id);
     fs.writeFileSync(this.filePath, JSON.stringify(cats));
+
+    return { message: `cat with id ${id} has been deleted` };
   }
 
   public async updateCat(id: number, newCat: ICat) {
@@ -46,6 +48,8 @@ export class CatsService {
       return cat;
     });
     fs.writeFileSync(this.filePath, JSON.stringify(cats));
+     return { message: `cat with id ${newCat.id} has been updated` };
+
   }
 
   private async _reolveCatImageLink(imageLink: string) {
